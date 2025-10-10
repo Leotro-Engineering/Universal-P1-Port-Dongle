@@ -16,7 +16,7 @@
 HardwareSerial mySerial(1); 
 
 // MAC address of peer device
-uint8_t peerMac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Insert MAC assress of peer device
+uint8_t peerMac[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF}; // Insert MAC address of peer device
 
 unsigned long lastSendTime = 0;
 const int SEND_INTERVAL_MS = 10; // UART buffer polling interval (ms)
@@ -41,6 +41,12 @@ void setup() {
   // Initialize Wi-Fi for ESP-NOW 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
+  delay(50); // Give Wi-Fi hardware time to start
+
+  // Get the MAC address of this device
+  String macAddress = WiFi.macAddress();
+  Serial.print("MAC Address: ");
+  Serial.println(macAddress); // Use this MAC address in the peer device code to set up a connection between devices
 
   // Initialize ESP-NOW
   if (esp_now_init() != ESP_OK) {

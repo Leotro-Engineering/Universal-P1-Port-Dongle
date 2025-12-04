@@ -6,5 +6,7 @@ The Universal P1 Port Dongle is a multifunctional Wi-Fi and USB development dong
 - Wireless P1 connection (for example, between the smart meter and a (smart) electric vehicle charger further away)
 - Wireless P1 splitter (if multiple smart devices need to use the P1 data)
 
+Check out the following page for an enclosure: [Enclosure by Unobtainables](https://makerworld.com//models/2073523-universal-p1-smart-meter-reader-enclosure)
+
 ## Where to buy?
 [TinyTroncis](https://www.tinytronics.nl/index.php?route=product/product&product_id=7290)

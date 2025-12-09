@@ -31,10 +31,13 @@ wifi:
 captive_portal:
 
 uart:
-  id: uart_p1
-  baud_rate: 115200
-  rx_pin: GPIO1
-  rx_buffer_size: 1700
+  - id: uart_p1
+    baud_rate: 115200
+    rx_pin: GPIO1
+    rx_buffer_size: 1700
+  - id: p1_bridge_uart
+    tx_pin: GPIO42
+    baud_rate: 115200
 
 dsmr:
   request_pin: GPIO2

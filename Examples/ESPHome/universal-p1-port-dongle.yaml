@@ -99,4 +99,12 @@ text_sensor:
       name: Version
     electricity_tariff:
       name: Tariff
+  - platform: dsmr
+    telegram:
+      name: "telegram"
+      on_value:
+        then:
+          - lambda: |-
+              ESP_LOGV("dsrm", "telegram: %s", x.c_str());
+              p1_bridge_uart->write_str(x.c_str());
         

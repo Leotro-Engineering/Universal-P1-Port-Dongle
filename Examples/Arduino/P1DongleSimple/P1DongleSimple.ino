@@ -13,7 +13,7 @@ unsigned long lastRequestTime = 0;
 unsigned long requestStartTime = 0;
 
 const unsigned long REQUEST_INTERVAL_MS = 1000; // Request interval time (ms)
-const unsigned long REQUEST_TIMEOUT_MS  = 5000; // Requenst timeout time (ms)
+const unsigned long REQUEST_TIMEOUT_MS  = 5000; // Request timeout time (ms)
 
 bool requestActive = false;
 bool checksumStarted = false;
@@ -85,7 +85,7 @@ void loop() {
     }
   }
 
-  // Requenst timeout
+  // Request timeout
   if (requestActive && (currentMillis - requestStartTime > REQUEST_TIMEOUT_MS)) {
     digitalWrite(PIN_REQ_IN, LOW);
     digitalWrite(REQ_STATUS_LED, LOW);

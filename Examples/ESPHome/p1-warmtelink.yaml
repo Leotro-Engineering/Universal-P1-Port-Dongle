@@ -1,0 +1,60 @@
+# This example configures the device to be able to communicate with the Warmtelink devices
+# that Vattenfall provides to their customers that have district heating or in dutch: stadsverwarming.
+esphome:
+  name: p1-monitor-warmtelink
+  friendly_name: P1 Monitor Warmtelink
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+logger:
+
+api:
+  encryption:
+    key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: P1 Monitor Warmtelink Fallback Hotspot
+    password: "XXXXXXXXXXXX"
+
+captive_portal:
+
+uart:
+  id: uart_p1
+  baud_rate: 115200
+  rx_pin: GPIO1
+  rx_buffer_size: 3000
+
+dsmr:
+  request_pin: GPIO2
+  request_interval: 1s
+  uart_id: uart_p1
+  max_telegram_length: 3000
+  crc_check: True
+  # The following value is set to 3 by default, however the Warmtelink this was tested on used 1
+  thermal_mbus_id: 1
+
+sensor:
+  - platform: dsmr
+    thermal_delivered:
+      name: "Thermal Energy Consumed"
+
+text_sensor:
+  - platform: dsmr
+    identification:
+      name: Identification
+    p1_version:
+      name: Version
+    # The following section is only really useful if you want to see the actual data the device
+    # gets from the Warmtelink in Home Assistant
+    telegram:
+      name: "Raw DSMR Telegram"
+      internal: true

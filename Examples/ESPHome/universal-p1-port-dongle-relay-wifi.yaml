@@ -1,5 +1,5 @@
 esphome:
-  name: universal-p1-port-dongle-relay-wifi
+  name: universal-p1-port-dongle-wifi
   friendly_name: Universal P1 Port Dongle Relay WiFi
 
 esp32:
@@ -25,14 +25,19 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "universal-p1-port-dongle-relay-wifi"
+    ssid: "universal-p1-port-dongle-wifi"
     password: "XXXXXXXXXXXX"
 
 captive_portal:
 
+web_server:
+ port: 80
+ 
 # Add external stream server component for raw UART forwarding over WiFi
 external_components:
-  - source: github://oxan/esphome-stream-server
+  # - source: github://oxan/esphome-stream-server gives compile error. 
+  # The grob6000 repository fixes this temporarily until the oxan libary is patched.
+  - source: github://grob6000/esphome-stream-server
     components: [ stream_server ]
 
 uart:

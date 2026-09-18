@@ -9,4 +9,4 @@ The Universal P1 Port Dongle is a multifunctional Wi-Fi and USB development dong
 Check out the following page for an enclosure: [Enclosure by Unobtainables](https://makerworld.com/en/models/2073523-universal-p1-smart-meter-reader-enclosure#profileId-2239791)
 
 ## Where to buy?
-[TinyTroncis](https://www.tinytronics.nl/index.php?route=product/product&product_id=7290)
+[TinyTronics](https://www.tinytronics.nl/index.php?route=product/product&product_id=7290)

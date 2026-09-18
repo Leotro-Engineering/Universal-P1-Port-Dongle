@@ -31,20 +31,20 @@ wifi:
 captive_portal:
 
 uart:
-  - id: uart_rx_p1
+  - id: p1_uart
     baud_rate: 115200
     rx_pin: GPIO1
     rx_buffer_size: 1700
     
-  - id: uart_tx_p1
+  - id: p1_bridge_uart
     tx_pin: GPIO42
     baud_rate: 115200 
 
 dsmr:
   request_pin: GPIO2
   request_interval: 1s
-  uart_id: uart_rx_p1
-  max_telegram_length: 3000
+  uart_id: p1_uart
+  max_telegram_length: 1700
   crc_check: true
 
 sensor:
@@ -102,34 +102,19 @@ text_sensor:
       name: Version
     electricity_tariff:
       name: Tariff
-
   - platform: dsmr
     telegram:
       name: "telegram"
       on_value:
         then:
           - lambda: |-
-              id(telegram) = x;
-
-              uint16_t crc = 0x0000;
-
-              // Calculate CRC16 over the telegram
-              for (size_t i = 0; i < id(telegram).length(); i++) {
-                crc ^= (uint8_t)id(telegram)[i];
-
-                for (uint8_t j = 0; j < 8; j++) {
-                  if (crc & 0x0001) {
-                    crc = (crc >> 1) ^ 0xA001;
-                  } else {
-                    crc >>= 1;
-                  }
-                }
+              if (id(request_rx).state) {
+                ESP_LOGI("dsmr", "Request pin active - forwarding telegram");
+                p1_bridge_uart->write_str(x.c_str());
+                p1_bridge_uart->write_str("\r\n");
+              } else {
+                ESP_LOGI("dsmr", "Request pin not active");
               }
-
-              char checksum[5];
-              sprintf(checksum, "%04X", crc);
-
-              id(telegram) += checksum;
 
 binary_sensor:
   - platform: gpio
@@ -137,14 +122,3 @@ binary_sensor:
     pin:
       number: GPIO41
       inverted: true
-    on_press:
-      then:
-        - lambda: |-
-            if (!id(telegram).empty()) {
-              uart_tx_p1->write_str(id(telegram).c_str());
-            }   
-
-globals:
-  - id: telegram
-    type: std::string
-    restore_value: no
